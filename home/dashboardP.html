@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Patient Dashboard</title>
+
+    <!-- Montserrat Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="dashboard1.css">
+  </head>
+  <body>
+    <div class="grid-container">
+
+      <!-- Header -->
+      <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+          <span class="material-icons-outlined">menu</span>
+        </div>
+        <div class="header-left">
+            <a href="home.html">
+                 
+              </a>
+        </div>
+        <div class="header-right">
+            <a href="home.html">
+                <i class="fa fa-home"></i>
+              </a>
+        </div>
+      </header>
+      <!-- End Header -->
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <div>
+          <div class="sidebar-title">
+            <div class="sidebar-brand">
+              <i class="fa fa-heartbeat"></i>
+              <span>HealthX</span>
+            </div>
+            <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
+          </div>
+  
+          <div class="side-link">
+            <ul class="sidebar-list">
+              <a href="dashboardP.html">
+                  <li class="sidebar-list-item">
+                      <i class="fa fa-dashboard"></i>
+                          <span>Dashboard</span>
+                  </li>
+              </a>
+              <a href="add-appointmentP.html">
+                  <li class="sidebar-list-item">
+                      <i class="fa fa-calendar"></i>
+                      <span>Appointments</span>
+                    </li>
+              </a>
+              <a href="paymentP.html">
+                <li class="sidebar-list-item">
+                  <i class="fa fa-credit-card"></i>
+                  <span>Payment</span>
+                </li>
+              </a>
+            </ul>
+          </div>
+        </div>
+        <a href="loginP.html" class="sidebar-list-item" id="logout">
+          <i class="fa fa-sign-out"></i>
+          <span>Logout</span>
+        </a>
+      </aside>
+      <!-- End Sidebar -->
+
+      <!-- Main -->
+      <main class="main-container">
+        <div class="main-title">
+          <p class="font-weight-bold">DASHBOARD</p>
+        </div>
+
+        <div class="main-cards">
+
+          <div class="card">
+            <div class="card-inner">
+              <i class="fa fa-user-md"></i>
+              <p class="text-primary">Total Payment</p>
+              
+            </div>
+            <span class="text-primary font-weight-bold">-</span>
+          </div>
+
+          <div class="card">
+            <div class="card-inner">
+              <i class="fa fa-calendar"></i>
+              <p class="text-primary">APPOINTMENTS</p>
+              
+            </div>
+            <span class="text-primary font-weight-bold">-</span>
+          </div>
+
+        </div>
+
+        <div class="data">
+          <h3>Appointment</h3>
+          <div class="table-info">
+              <table>
+                  <thead>
+                      <tr>
+                          <th>Doctor</th>
+                          <th>Speaciality</th>
+                          <th>Date</th>
+                          <th>Time</th>
+                          <th>Status</th>                        
+                      </tr>
+                  </thead>
+              </table>
+          </div>
+      </div>
+
+      </main>
+      <!-- End Main -->
+
+    </div>
+
+    <script>
+    /*Login and Authentication Stuff*/
+    {
+      if(!localStorage.getItem("username") || (localStorage.getItem("role")? (localStorage.getItem("role") >= 0) : false)){
+        alert("Access Denied. You don't have proper authorization.");
+        window.location.href = "PoE.html"; // Redirect to login page
+        document.getElementById("grid-container").innerHTML = "";   
+      }
+
+      document.getElementById("logout").addEventListener("click", function(event){
+        localStorage.removeItem("username");
+        localStorage.removeItem("password")
+        window.location.href = ("home.html");
+      });
+    }
+    </script>
+  </body>
+</html>

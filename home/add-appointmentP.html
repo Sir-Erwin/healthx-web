@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Patient Dashboard</title>
+
+    <!-- Montserrat Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="dashboard1.css">
+  </head>
+  <body>
+    <div class="grid-container">
+
+      <!-- Header -->
+      <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+          <span class="material-icons-outlined">menu</span>
+        </div>
+        <div class="header-left">
+            <a href="home.html">
+                 
+              </a>
+        </div>
+        <div class="header-right">
+            <a href="home.html">
+                <i class="fa fa-home"></i>
+              </a>
+        </div>
+      </header>
+      <!-- End Header -->
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <div>
+          <div class="sidebar-title">
+            <div class="sidebar-brand">
+              <i class="fa fa-heartbeat"></i>
+              <span>HealthX</span>
+            </div>
+            <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
+          </div>
+  
+          <div class="side-link">
+            <ul class="sidebar-list">
+              <a href="dashboardP.html">
+                  <li class="sidebar-list-item">
+                      <i class="fa fa-dashboard"></i>
+                          <span>Dashboard</span>
+                  </li>
+              </a>
+              <a href="appointmentP.html">
+                  <li class="sidebar-list-item">
+                      <i class="fa fa-calendar"></i>
+                      <span>Appointments</span>
+                    </li>
+              </a>
+              <a href="paymentP.html">
+                <li class="sidebar-list-item">
+                  <i class="fa fa-credit-card"></i>
+                  <span>Payment</span>
+                </li>
+              </a>
+            </ul>
+          </div>
+        </div>
+        <a href="loginP.html" class="sidebar-list-item">
+          <i class="fa fa-sign-out"></i>
+          <span>Logout</span>
+        </a>
+      </aside>
+      <!-- End Sidebar -->
+
+      <!-- Main -->
+      <main class="main-container">
+        <div class="main-title">
+          <p class="font-weight-bold">APPOINTMENT</p>
+        </div>
+        <div class="data">
+          <h2>Schedule an In-Person Appointment</h2>
+          <p>Search and schedule same-day or future appointments for adults and children. We're welcoming new patients and accept 50+ health plans</p>
+
+          <form action="" class="info" id="emailFrom">
+            <div class="dropdown">
+              <div class="input-box">
+                  <!--<input type="text" id="role" placeholder="Jobe Role" required>-->
+                  <select name="dep" id="">
+                    <option value="" disabled selected hidden>Speciality</option>
+                    <option>General</option>
+                    <option>Dermatologist</option>
+                    <option >Neurologist</option>
+                    <option>Cardiologist</option>
+                    <option>Ophthalmologist</option>
+                    <option>Orthopedic Surgery</option>
+                    <option>Dentist</option>
+                  </select>
+                  <select name="loc" id="">
+                    <option value="" disabled selected hidden>Clinic's Location</option>
+                    <option>Houston</option>
+                    <option >Austin</option>
+                    <option>Dallas</option>
+                    <option>Fort Worth</option>
+                  </select>
+                  <input type="text" name="doc_name" placeholder="Doctor's Last Name">
+                </div>     
+          </div>
+  
+            <div class="input-box">
+            <br>
+            <p>Start Date</p><input type="date" name="st_date" placeholder="Start Date" >
+            <p>End Date</p><input type="date" name="en_date" placeholder="End Date" >
+            <br>
+            </div>
+
+            <a href="add-appointmentP.html"><button type="reset">CLEAR</button></a>
+            <button type="submit">SEARCH</button>
+        
+          </form>
+          <br>
+          <div class="table-info">
+              <table>
+                  <thead>
+                      <tr>
+                        <th>Clinic</th>
+                          <th>Doctor Name</th>
+                          <th>Gender</th>
+                          <th>Date</th>
+                          <th>Time</th>
+                          <th>Clinic Location</th>
+                          <th>Make Appointment</th>
+                      </tr>
+                  </thead>
+                  <tbody id="employee-data">
+                
+                  </tbody>
+              </table>
+          
+
+        </div>
+
+
+      </main>
+      <!-- End Main -->
+
+    </div>
+
+    <!-- Scripts -->
+    <!-- ApexCharts -->
+    <!-- Custom JS -->
+    <script>
+      document.getElementById("emailFrom").addEventListener("reset", function(event) {
+        const tableBody = document.getElementById('employee-data');
+        tableBody.innerHTML = '';
+      });
+      
+
+      document.getElementById("emailFrom").addEventListener("submit", function(event) {
+        console.log("Response Submitted");
+              event.preventDefault();
+              const formData = new FormData(event.target); // Get form data
+              
+              var jsonformat = {};
+              formData.forEach(function(value, key){
+                jsonformat[key] = value;
+              });
+              // You can perform validation here before sending data to backend
+              fetch('https://healthx-2902be720d3c.herokuapp.com/search_appt', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(jsonformat)
+              })
+              .then(response => {
+                if (response.ok) {
+                  console.log("Success");
+                }
+
+                return response.json();
+              })
+              .then(data => {
+                console.log(data);
+
+                const tableBody = document.getElementById('employee-data');
+                tableBody.innerHTML = '';
+                data.forEach(r => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${r.clinic_name}</td>
+                        <td>${r.FName + " " + r.LName}</td>
+                        <td>${r.Gender}</td>
+                        <td>${r.Date}</td>
+                        <td>${r.Start_Time}</td>
+                        <td>${r.clinic_location}</td>
+                        <td><button onclick="makeAppointment('${r.SchedID}')"> Select </button></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+          });
+
+          function makeAppointment(schedID) {
+            var username = localStorage.getItem("username");
+            console.log(username); // Check if it's the expected username string
+            fetch('https://healthx-2902be720d3c.herokuapp.com/set_appt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ SchedID: schedID, PID: localStorage.getItem("username") })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Handle successful appointment setting
+                console.log('Appointment set successfully:', data);
+                // You can update the UI accordingly, maybe remove the row from the table or show a success message
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('Error setting appointment:', error);
+                // You can show an error message to the user
+            });
+        }
+    
+    </script>
+  </body>
+</html>

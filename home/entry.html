@@ -1,0 +1,121 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HealthX</title>
+    <link rel="stylesheet" href="entry.css" />
+
+    <style>
+      body {
+        background-image: linear-gradient(rgba(4,9,30,0.7),rgba(4,9,30,0.7)),url(sunrise.jpg);
+      }
+    </style>
+  </head>
+
+
+<body>
+  
+  <header>
+    <nav>
+      <div id="main-logo">
+        
+      <h1>HealthX</h1>
+
+        <ul id="categories">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="login.html">Log in</a></li>
+          <li><a href="entry.html">Sign Up</a></li>
+        </ul>
+      </div>
+
+  </header>
+
+  <div id="sign-up">
+    <h1>Registration</h1>
+    <hr>
+  <form id="loginForm">
+    <div class="input-box">
+      <input type="text" name="fname" id="fname" placeholder="First Name" required>
+    <br>
+    <input type="text" name="Mname" id="mname" placeholder="Middle Initial" maxlength="1">
+    <br>
+    </div>
+    
+
+    <div class="input-box">
+      <input type="text" name="Lname" id="lname" placeholder="Last Name" required>
+      <br>
+      <input type="password" id="social" placeholder="Social Security Number" name="ssn" pattern="[0-9]{3}[0-9]{2}[0-9]{4}" required>
+      <br>
+    </div>
+    
+
+    <div class="input-box">
+      <input type="email" id="email" name="email" placeholder="Email" required>
+      <br>
+      <input type="tel" id="number" placeholder="Phone Number" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" name="number" required>
+      <br>
+    </div>
+    
+    <div class="input-box">
+      <!--<input type="text" id="role" placeholder="Jobe Role" required>-->
+      <select name="role" id="" required>
+        <option value="" disabled selected hidden>Job Role</option>
+        <option value="Nurse">Nurse</option>
+        <option value="Doctor">Doctor</option>
+        <option value="Front Desk">Front Desk</option>
+        <option value="Lab Tech">Lab Tech</option>
+        <option value="Admin">Admin</option>
+      </select>
+      <br>
+      <select name="gender" id="gender">
+        <option value="" disabled selected hidden>Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+      <br>
+    </div>
+      
+    <div class="input-box" id="eid_passw">
+      <input type="number" placeholder="EID" name="eid">
+      <input type="password" placeholder="Password" name="password">
+    </div>
+
+    <button type="submit" id="loginButton">Sign Up</button>
+
+  </form>
+  <p id="message"></p>
+  </div>
+  
+  <script>
+
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      console.log("Response Submitted");
+            event.preventDefault();
+            const formData = new FormData(event.target); // Get form data
+            
+            var jsonformat = {};
+            formData.forEach(function(value, key){
+              jsonformat[key] = value;
+            });
+            // You can perform validation here before sending data to backend
+            fetch('https://healthx-2902be720d3c.herokuapp.com/emp_signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonformat)
+            })
+            .then(response => {
+              if (response.ok) {
+                console.log("Success");
+              }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+  </script>
+    
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <!-- Montserrat Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="dashboard1.css">
+  </head>
+  <body>
+    <div class="grid-container">
+
+      <!-- Header -->
+      <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+          <span class="material-icons-outlined">menu</span>
+        </div>
+        <div class="header-left">
+            <a href="home.html">
+                 
+              </a>
+        </div>
+        <div class="header-right">
+            <a href="home.html">
+                <i class="fa fa-home"></i>
+              </a>
+        </div>
+      </header>
+      <!-- End Header -->
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <div class="sidebar-title">
+          <div class="sidebar-brand">
+            <i class="fa fa-heartbeat"></i>
+            <span>HealthX</span>
+          </div>
+          <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
+        </div>
+
+        <ul class="sidebar-list">
+            <a href="dashboard.html">
+                <li class="sidebar-list-item">
+                    <i class="fa fa-dashboard"></i>
+                        <span>Dashboard</span>
+                </li>
+            </a>
+            <a href="doctor.html">
+                <li class="sidebar-list-item">
+                    <i class="fa fa-user-md"></i>
+                        <span>Doctors</span>
+                  </li>
+            </a>
+            <a href="appointment.html">
+                <li class="sidebar-list-item">
+                    <i class="fa fa-calendar"></i>
+                    <span>Appointments</span>
+                  </li>
+            </a>
+            <a href="department.html">
+                <li class="sidebar-list-item">
+                    <i class="fa fa-building"></i>
+                        <span>Department</span>
+                  </li>
+            </a>
+          <a href="employee.html">
+            <li class="sidebar-list-item">
+                <i class="fa fa-users"></i>
+                <span>Employees</span>
+            </li>
+          </a>
+          <a href="payment.html">
+            <li class="sidebar-list-item">
+                <i class="fa fa-credit-card"></i>
+                    <span>Payment</span>
+              </li>
+          </a>
+          <a href="report.html">
+            <li class="sidebar-list-item">
+                <i class="fa fa-file"></i>
+                    <span>Reports</span>
+              </li>
+          </a>
+          <a href="login.html">
+            <li class="sidebar-list-item" id="logout">
+                <i class="fa fa-sign-out"></i>
+                    <span>Logout</span>
+              </li>
+          </a>
+        </ul>
+      </aside>
+      <!-- End Sidebar -->
+
+      <!-- Main -->
+      <main class="main-container">
+        <h2>Add Appointment</h2>
+        <form action="" class="info" id="emailFrom" method="">
+            <div class="input-box">
+              <input type="text" name="First Name" id="fname" placeholder="Patient's Name" required>
+            <br>
+            </div>
+
+            
+        
+            <div class="input-box">
+                <input type="date" name="Date" placeholder="YYYY-MM-DD" required>
+            <br>
+            <input type="email" id="email" name="email" placeholder="Patient's Email" required>
+            <br>
+            </div>
+            
+        
+            <div class="input-box">
+              <input type="time" placeholder="Time"required>
+            <br>
+            <input type="tel" id="number" placeholder="Patient's Phone Number" pattern="[0-9]{3}[0-9]{3}[0-9]{4}"required>
+            <br>
+            </div>
+
+            <div class="dropdown">
+                <div class="input-box">
+                    <!--<input type="text" id="role" placeholder="Jobe Role" required>-->
+                    <select name="" id="">
+                      <option value="" disabled selected hidden>Department</option>
+                      <option>General</option>
+                      <option>Dermatologist</option>
+                      <option >Neurologist</option>
+                      <option>Cardiologist</option>
+                      <option>Ophthalmologist</option>
+                      <option>Orthopedic Surgery</option>
+                      <option>Dentist</option>
+                    </select>
+                    <select name="" id="">
+                        <option value="" disabled selected hidden>Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                      </select>
+                  
+                    <br>
+                  </div>
+                    
+            </div>
+            
+          <!--
+              <div id="gen">
+                <label for="gender">Gender</label>
+                <input type="radio" name="male" id="gender" value="male">
+                <label for="gender">Male</label>
+                <input type="radio" name="male" value="female">
+                <label for="gender">Female</label> <br>
+              </div>
+            -->
+            <a href="login.html"><button type="button">CREATE APPOINTMENT</button></a>
+        
+          </form>
+      </main>
+      <!-- End Main -->
+
+    </div>
+
+    <!-- Scripts -->
+    <!-- ApexCharts -->
+    <!-- Custom JS -->
+    <script src="js/scripts.js"></script>
+  </body>
+</html>

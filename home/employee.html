@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <!-- Montserrat Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="dashboard1.css">
+  </head>
+  <body>
+    <div class="grid-container">
+
+      <!-- Header -->
+      <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+          <span class="material-icons-outlined">menu</span>
+        </div>
+        <div class="header-left">
+            <a href="home.html">
+                 
+              </a>
+        </div>
+        <div class="header-right">
+            <a href="home.html">
+                <i class="fa fa-home"></i>
+              </a>
+        </div>
+      </header>
+      <!-- End Header -->
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <div class="sidebar-title">
+          <div class="sidebar-brand">
+            <i class="fa fa-heartbeat"></i>
+            <span>HealthX</span>
+          </div>
+          <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
+        </div>
+
+        <ul class="sidebar-list">
+            <a href="dashboard.html">
+                <li class="sidebar-list-item">
+                    <i class="fa fa-dashboard"></i>
+                        <span>Dashboard</span>
+                </li>
+            </a>
+            <a href="doctor.html">
+                <li class="sidebar-list-item">
+                    <i class="fa fa-user-md"></i>
+                        <span>Doctors</span>
+                  </li>
+            </a>
+            <a href="appointment.html">
+                <li class="sidebar-list-item">
+                    <i class="fa fa-calendar"></i>
+                    <span>Appointments</span>
+                  </li>
+            </a>
+
+          <a href="employee.html">
+            <li class="sidebar-list-item">
+                <i class="fa fa-users"></i>
+                <span>Employees</span>
+            </li>
+          </a>
+          <a href="payment.html">
+            <li class="sidebar-list-item">
+                <i class="fa fa-credit-card"></i>
+                    <span>Payment</span>
+              </li>
+          </a>
+          <a href="report.html">
+            <li class="sidebar-list-item">
+                <i class="fa fa-file"></i>
+                    <span>Reports</span>
+              </li>
+          </a>
+          <a href="login.html">
+            <li class="sidebar-list-item" id="logout">
+                <i class="fa fa-sign-out"></i>
+                    <span>Logout</span>
+              </li>
+          </a>
+        </ul>
+      </aside>
+      <!-- End Sidebar -->
+
+      <!-- Main -->
+      <main class="main-container">
+        <div class="main-title">
+          <p class="font-weight-bold">EMPLOYEE</p>
+          <a href="add-employee.html">Add Employee</a>
+        </div>
+        <div class="data">
+          <div class="table-info">
+              <table>
+                  <thead>
+                      <tr>
+                          <th>EID</th>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                          <th>Email</th>
+                          <th>Gender</th>
+                          <th>Phone Number</th>
+                          <th>Department</th>
+                          <th>Actions</th>
+                      </tr>
+                  </thead>
+                  <tbody id="employee-data">
+                
+                  </tbody>
+              </table>
+          </div>
+      </div>
+
+    
+
+      </main>
+      <!-- End Main -->
+
+    </div>
+
+    <!-- Custom JS -->
+    <script>
+      function deleteEmployee(number) {
+        fetch(`https://healthx-2902be720d3c.herokuapp.com/employees/${number}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                // Remove the corresponding row from the table
+                const row = document.getElementById(`employee-row-${number}`);
+                if (row) {
+                    row.remove();
+                }
+            } else {
+                console.error('Failed to delete employee:', response.statusText);
+            }
+        })
+        .catch(error => console.error('Error deleting employee:', error));
+    }
+
+      // Fetch employee data from the backend
+      fetch('https://healthx-2902be720d3c.herokuapp.com/employees')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('employee-data');
+                data.forEach(employee => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${employee.EID}</td>
+                        <td>${employee.FName}</td>
+                        <td>${employee.LName}</td>
+                        <td>${employee.Email}</td>
+                        <td>${employee.Gender}</td>
+                        <td>${employee.PhoneNum}</td>
+                        <td>${employee.Role}</td>
+                        <td><button onclick="deleteEmployee(${employee.PhoneNum})">Delete</button></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+  </body>
+</html>

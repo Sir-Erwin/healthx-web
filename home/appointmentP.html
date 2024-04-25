@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Patient Dashboard</title>
+
+    <!-- Montserrat Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="dashboard1.css">
+    <style>
+      /* Styling for the calendar */
+      .calendar {
+        font-family: Arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .calendar th {
+        color: grey;
+        border: 1px solid #ddd;
+        padding: 8px;
+        font-size: 10px;
+        text-align: center;
+        background-color: #f2f2f2;
+      }
+      .calendar td {
+        border: 1px solid #ddd;
+        padding: 0;
+        text-align: center;
+        width: 50px; /* Equal width for each cell */
+        height: 50px; /* Equal height for each cell */
+        position: relative; /* Add position relative for the cell */
+      }
+      .calendar .date {
+        font-size: 16px; /* Font size of the date number */
+        position: absolute;
+        top: 50%;
+        right: 5%; /* Adjust the right spacing using percentage */
+        transform: translateY(-50%);
+        width: 30px; /* Increase width of the date number box */
+        height: 30px; /* Increase height of the date number box */
+        line-height: 30px; /* Center the text vertically */
+        background-color: #fff; /* Optional: Set background color */
+        border-radius: 50%; /* Optional: Round the corners */
+      }
+      .calendar td:hover {
+        background-color: #f0f0f0;
+      }
+      .btn-container {
+        display: flex;
+        justify-content: space-between; /* Align buttons at each end of the container */
+        margin-bottom: 20px;
+      }
+      .btn {
+          background-color: rgb(113, 99, 186);
+        border: none;
+        color: white;
+        height: 30px;
+        padding: 0px 10px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      .title {
+        text-align: center;
+        font-size: 15px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-container">
+
+      <!-- Header -->
+      <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+          <span class="material-icons-outlined">menu</span>
+        </div>
+        <div class="header-left">
+            <a href="home.html">
+                 
+              </a>
+        </div>
+        <div class="header-right">
+            <a href="home.html">
+                <i class="fa fa-home"></i>
+              </a>
+        </div>
+      </header>
+      <!-- End Header -->
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <div>
+          <div class="sidebar-title">
+            <div class="sidebar-brand">
+              <i class="fa fa-heartbeat"></i>
+              <span>HealthX</span>
+            </div>
+            <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
+          </div>
+  
+          <div class="side-link">
+            <ul class="sidebar-list">
+              <a href="dashboardP.html">
+                  <li class="sidebar-list-item">
+                      <i class="fa fa-dashboard"></i>
+                          <span>Dashboard</span>
+                  </li>
+              </a>
+              <a href="appointmentP.html">
+                  <li class="sidebar-list-item">
+                      <i class="fa fa-calendar"></i>
+                      <span>Appointments</span>
+                    </li>
+              </a>
+              <a href="paymentP.html">
+                <li class="sidebar-list-item">
+                  <i class="fa fa-credit-card"></i>
+                  <span>Payment</span>
+                </li>
+              </a>
+            </ul>
+          </div>
+        </div>
+        <a href="loginP.html" class="sidebar-list-item">
+          <i class="fa fa-sign-out"></i>
+          <span>Logout</span>
+        </a>
+      </aside>
+      <!-- End Sidebar -->
+
+      <!-- Main -->
+      <main class="main-container">
+        <div class="main-title">
+          <p class="font-weight-bold">APPOINTMENT</p>
+          <a href="add-appointmentP.html">Add Appointment</a>
+        </div>
+        <div class="data">
+          <h3>All Appointment</h3>
+          <div class="btn-container">
+            <button id="prevBtn" class="btn"><</button>
+            <h2 class="title" id="month-year"></h2>
+            <button id="nextBtn" class="btn">></button>
+          </div>
+          
+          <table class="calendar">
+            <thead>
+              <tr>
+                <th>Sun</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+              </tr>
+            </thead>
+            <tbody id="calendar-body">
+              <!-- Calendar dates will be inserted here -->
+            </tbody>
+          </table>
+          
+          <script>
+            let currentYear = (new Date()).getFullYear();
+            let currentMonth = (new Date()).getMonth();
+          
+            function generateCalendar(month, year) {
+              const calendarBody = document.getElementById('calendar-body');
+              calendarBody.innerHTML = '';
+          
+              const daysInMonth = new Date(year, month + 1, 0).getDate();
+              let date = 1;
+          
+              for (let i = 0; i < 6; i++) {
+                const row = document.createElement('tr');
+          
+                for (let j = 0; j < 7; j++) {
+                  const cell = document.createElement('td');
+                  if (i === 0 && j < new Date(year, month).getDay()) {
+                    // Empty cells before the first day of the month
+                    const emptyCell = document.createTextNode('');
+                    cell.appendChild(emptyCell);
+                  } else if (date > daysInMonth) {
+                    // Empty cells after the last day of the month
+                    const emptyCell = document.createTextNode('');
+                    cell.appendChild(emptyCell);
+                  } else {
+                    // Fill in the cell with the date
+                    const cellText = document.createTextNode(date);
+                    const dateNumber = document.createElement('span');
+                    dateNumber.className = 'date';
+                    dateNumber.appendChild(cellText);
+                    cell.appendChild(dateNumber);
+                    cell.addEventListener('click', () => {
+                      // Example: Handle click event on the date cell
+                      alert(`Clicked on ${year}-${month + 1}-${date}`);
+                    });
+          
+                    // Add current date styling
+                    const currentDate = new Date();
+                    if (currentDate.getFullYear() === year && currentDate.getMonth() === month && currentDate.getDate() === date) {
+                      cell.style.fontWeight = 'bold';
+                    }
+          
+                    date++;
+                  }
+                  row.appendChild(cell);
+                }
+          
+                calendarBody.appendChild(row);
+              }
+          
+              // Update month and year display
+              document.getElementById('month-year').textContent = `${getMonthName(month)} ${year}`;
+            }
+          
+            // Function to get month name from month index
+            function getMonthName(monthIndex) {
+              const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+              return months[monthIndex];
+            }
+          
+            // Generate initial calendar
+            generateCalendar(currentMonth, currentYear);
+          
+            // Previous month button functionality
+            document.getElementById('prevBtn').addEventListener('click', () => {
+              currentMonth -= 1;
+              if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear -= 1;
+              }
+              generateCalendar(currentMonth, currentYear);
+            });
+          
+            // Next month button functionality
+            document.getElementById('nextBtn').addEventListener('click', () => {
+              currentMonth += 1;
+              if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear += 1;
+              }
+              generateCalendar(currentMonth, currentYear);
+            });
+          </script>
+          
+        </div>
+
+
+      </main>
+      <!-- End Main -->
+
+    </div>
+
+    <!-- Custom JS -->
+    <script src="js/scripts.js"></script>
+  </body>
+</html>

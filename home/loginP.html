@@ -1,0 +1,102 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HealthX Login</title>
+    <link rel="stylesheet" href="login.css" />
+    
+    <style>
+      body {
+        background-image: linear-gradient(rgba(4,9,30,0.7),rgba(4,9,30,0.7)),url(sunrise.jpg);
+      }
+      .error-message {
+        color: red;
+        display: none;
+        align-content: center;
+      }
+    
+    </style>
+  </head>
+
+
+<body>
+  <header>
+    <nav>
+      <div id="main-logo">
+        
+        <h1>HealthX</h1>
+
+        <ul id="categories">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="loginP.html">Log in</a></li>
+          <li><a href="entryP.html">Sign Up</a></li>
+        </ul>
+      </div>
+
+  </header>
+
+  <div id="login">
+    <h1>Login</h1>
+    <hr>
+    <form id="loginForm">
+      
+      <p class="error-message" id="errorMessage">Incorrect Username or Password</p>
+      
+      <div class="inputbox">
+        <input type="email" placeholder = "Email" id="emailInput" name="email" required>        
+      </div>
+    
+      <div class="inputbox">
+        <input type="password" placeholder="Password" minlength="8" id="passwordInput" name="password" required>
+      </div>
+      <button type="submit" id="loginButton">Log in</button>
+      
+      <div class="register">
+        <p>Don't have an account? <a href="entryP.html"> Register</a></p>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      console.log("Response Submitted");
+            event.preventDefault();
+            var email = document.getElementById("emailInput").value;
+            var password = document.getElementById("passwordInput").value;
+            // You can perform validation here before sending data to backend
+            fetch('https://healthx-2902be720d3c.herokuapp.com/pat_login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: email, password: password })
+            })
+            .then(response => {
+              if (response.ok) {
+                errorMessage.style.display = "none";
+                return response.json();
+                
+              }
+                else{
+                  console.log("WRONG!!!");
+                  errorMessage.style.display = "block";
+                }
+            })
+            .then(data => {
+              localStorage.setItem("username", data.pid);
+              localStorage.setItem("role", -10);
+              location.replace("dashboardP.html");
+              console.log(localStorage.getItem("username") + ": " + localStorage.getItem("role"));
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+  </script>
+
+
+
+
+</body>
+
+</html>

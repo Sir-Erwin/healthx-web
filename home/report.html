@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <!-- Montserrat Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="dashboard1.css">
+  </head>
+  <body>
+    <div class="grid-container">
+
+      <!-- Header -->
+      <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+          <span class="material-icons-outlined">menu</span>
+        </div>
+        <div class="header-left">
+            <a href="home.html">
+                 
+              </a>
+        </div>
+        <div class="header-right">
+            <a href="home.html">
+                <i class="fa fa-home"></i>
+              </a>
+        </div>
+      </header>
+      <!-- End Header -->
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <div>
+          <div class="sidebar-title">
+            <div class="sidebar-brand">
+              <i class="fa fa-heartbeat"></i>
+              <span>HealthX</span>
+            </div>
+            <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
+          </div>
+  
+          <div class="side-link">
+            <ul class="sidebar-list">
+              <a href="dashboard.html">
+                  <li class="sidebar-list-item">
+                      <i class="fa fa-dashboard"></i>
+                          <span>Dashboard</span>
+                  </li>
+              </a>
+              <a href="doctor.html">
+                  <li class="sidebar-list-item">
+                      <i class="fa fa-user-md"></i>
+                          <span>Doctors</span>
+                    </li>
+              </a>
+              <a href="appointment.html">
+                  <li class="sidebar-list-item">
+                      <i class="fa fa-calendar"></i>
+                      <span>Appointments</span>
+                    </li>
+              </a>
+              <a href="employee.html">
+                <li class="sidebar-list-item">
+                  <i class="fa fa-users"></i>
+                  <span>Employees</span>
+                </li>
+              </a>
+              <a href="payment.html">
+                <li class="sidebar-list-item">
+                  <i class="fa fa-credit-card"></i>
+                  <span>Payment</span>
+                </li>
+              </a>
+              <a href="report.html">
+                <li class="sidebar-list-item">
+                  <i class="fa fa-file"></i>
+                  <span>Reports</span>
+                </li>
+              </a>
+            </ul>
+          </div>
+        </div>
+        
+      <a class="sidebar-list-item" id="logout">
+        <i class="fa fa-sign-out"></i>
+        <span>Logout</span>
+      </a>
+      </aside>
+      <!-- End Sidebar -->
+
+      <!-- Main -->
+      <main class="main-container">
+        <div class="main-title">
+          <p class="font-weight-bold">REPORTS</p>
+        </div>
+
+        <form id="main-cards">
+          <div class="card">
+            <input type="number" placeholder="DOCTOR: EID" id="eidInput" name="eid" >        
+          </div>
+
+          <div class="card">
+            <input type="number" placeholder="CLINIC: CID" id="cidInput" name="cid" >        
+          </div> 
+
+          <div class="card">
+            <input type="number" placeholder="APPOINTMENT: AID" id="aidInput" name="aid" >        
+          </div>
+          
+          <div class="card">
+            <input type="number" placeholder="PATIENT: PID" id="pidInput" name="pid" >        
+          </div>
+
+          <div class="card">
+            <button type = "submit"> SEARCH </button>        
+          </div>
+
+        </form>
+
+        <div class="data">
+          <div class="table-info">
+              <table>
+                  <thead>
+                      <tr>
+                        <th>PID</th>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                          <th>Gender</th>
+                          <th>Date</th>
+                          <th>Time</th>
+                          <th>Clinic</th>
+                      </tr>
+                  </thead>
+                  <tbody id="employee-data">
+                
+                  </tbody>
+              </table>
+          </div>
+      </div>
+
+      </main>
+      <!-- End Main -->
+
+    </div>
+
+   
+    <script>
+
+      document.getElementById("logout").addEventListener("click", function(event){
+        localStorage.removeItem("username");
+        localStorage.removeItem("password")
+        window.location.href = ("home.html");
+      });
+
+      function deleteEmployee(id) {
+        fetch(`https://healthx-2902be720d3c.herokuapp.com/Sapp/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                // Remove the corresponding row from the table
+                const row = document.getElementById(`employee-row-${id}`);
+                if (row) {
+                    row.remove();
+                }
+            } else {
+                console.error('Failed to delete employee:', response.statusText);
+            }
+        })
+        .catch(error => console.error('Error deleting employee:', error));
+    }
+/*
+      fetch('https://healthx-2902be720d3c.herokuapp.com/Sapp')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('employee-data');
+                data.forEach(employee => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${employee.PATIENT_PID}</td>
+                        <td>${employee.FName}</td>
+                        <td>${employee.LName}</td>
+                        <td>${employee.Gender}</td>
+                        <td>${employee.Date}</td>
+                        <td>${employee.Time}</td>
+                        <td><button onclick="deleteEmployee(${employee.PID})">Delete</button></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+*/
+
+    /*Login and Authentication Stuff*/
+    {
+      if(!localStorage.getItem("username") || (localStorage.getItem("role")? (localStorage.getItem("role") == -10) : false)){
+        alert("Access Denied. You don't have proper authorization.");
+        window.location.href = "PoE.html"; // Redirect to login page
+        document.getElementById("grid-container").innerHTML = "";   
+      }
+
+      document.getElementById("logout").addEventListener("click", function(event){
+        localStorage.removeItem("username");
+        localStorage.removeItem("password")
+        window.location.href = ("home.html");
+      });
+    }
+
+    document.getElementById("main-cards").addEventListener("submit", function(event) {
+      console.log("Response Submitted");
+            event.preventDefault();
+            const formData = new FormData(event.target); // Get form data
+            
+            var jsonformat = {};
+            formData.forEach(function(value, key){
+              jsonformat[key] = value;
+            });
+            // You can perform validation here before sending data to backend
+            fetch('https://healthx-2902be720d3c.herokuapp.com/appt_report', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonformat)
+            })
+            .then(response => {
+              if (response.ok) {
+                console.log("Success");
+              }
+            })
+            .then(data => {
+              const tableBody = document.getElementById('employee-data');
+              data.forEach(employee => {
+                  const row = document.createElement('tr');
+                  row.innerHTML = `
+                      <td>${employee.PATIENT_PID}</td>
+                      <td>${employee.FName}</td>
+                      <td>${employee.LName}</td>
+                      <td>${employee.Gender}</td>
+                      <td>${employee.Date}</td>
+                      <td>${employee.Time}</td>
+                      <td><button onclick="deleteEmployee(${employee.PID})">Delete</button></td>
+                  `;
+                  tableBody.appendChild(row);
+              });
+          })
+          .catch(error => console.error('Error fetching data:', error));
+        });
+  
+      </script>
+    </body>
+  </html>

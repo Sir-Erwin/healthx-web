@@ -1,0 +1,96 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Healthx Login</title>
+    <link rel="stylesheet" href="login.css" />
+
+    <style>
+      body {
+        background-image: linear-gradient(rgba(4,9,30,0.7),rgba(4,9,30,0.7)),url(sunrise.jpg);
+      }
+      .error-message {
+        color: red;
+        display: none;
+        align-content: center;
+      }
+    </style>
+  </head>
+
+
+<body>
+  <header>
+    <nav>
+      <div id="main-logo">
+        
+        <h1>HealthX</h1>
+
+        <ul id="categories">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="login.html">Log in</a></li>
+          <li><a href="entry.html">Sign Up</a></li>
+        </ul>
+      </div>
+
+  </header>
+  <div id="login">
+    <h1>Login</h1>
+    <hr>
+    <form id="loginForm">
+      
+      <p class="error-message" id="errorMessage">Incorrect Username or Password</p>
+      
+      <div class="inputbox">
+        <input type="number" placeholder="EID" id="eidInput" name="eid" required>        
+      </div>
+      <div class="inputbox">
+        <input type="password" placeholder="Password" minlength="8" id="passwordInput" name="password" required>
+      </div>
+      <button type="submit" id="loginButton">Log in</button>
+      
+      <div class="register">
+        <p>Don't have an account? <a href="entry.html"> Register</a></p>
+      </div>
+    </form> 
+  </div>
+  <script>
+    
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      console.log("Response Submitted");
+            event.preventDefault();
+            var eid = document.getElementById("eidInput").value;
+            var password = document.getElementById("passwordInput").value;
+            // You can perform validation here before sending data to backend
+            fetch('https://healthx-2902be720d3c.herokuapp.com/emp_login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: eid, password: password })
+            })
+            .then(response => {
+              if (response.ok) {
+                errorMessage.style.display = "none";
+                localStorage.setItem("username", eid);
+                let i = (response.body === "Lab Tech") ? 1 : 
+                    (response.body === "Front Desk" || response.body === "Nurse") ? 2 : 
+                    (response.body === "Admin") ? 3 : 0;
+                localStorage.setItem("role", i);
+                location.replace("dashboard.html");
+                console.log(localStorage.getItem("username") + ": " + localStorage.getItem("role"));
+              }
+                else{
+                  errorMessage.style.display = "block";
+                }
+            })
+            .then(data => {
+                console.log(data); // Handle success response from backend
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+  </script>
+</body>
+
+</html>

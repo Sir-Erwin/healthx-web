@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Form</title>
+</head>
+<body>
+
+<form class="info" id="employee-form" action="/addem" method="POST">
+  <div class="input-box">
+    <input type="number" name="eid" id="eid" placeholder="EID" required>
+    <input type="text" name="fname" id="fname" placeholder="First Name" required>
+    <br><br>
+  </div>
+
+  <div class="input-box">
+    <input type="text" name="lname" id="lname" placeholder="Last Name" required>
+    <br>
+    <input type="email" id="email" name="email" placeholder="Email" required>
+    <br><br>
+  </div>
+
+  <div class="input-box">
+    <input type="text" name="dob" id="dob" placeholder="Date of Birth" required>
+    <br>
+    <input type="tel" id="number" placeholder="Phone Number" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" name="number" required>
+    <br><br>
+  </div>
+
+  <div class="dropdown">
+    <div class="input-box">
+      <select name="role" id="role" required>
+        <option value="" disabled selected hidden>Department</option>
+        <option value="Nurse">Nurse</option>
+        <option value="Doctor">Doctor</option>
+        <option value="Front-Desk">Front Desk</option>
+        <option value="Lab-Tech">Lab Tech</option>
+        <option value="HIT">Health Information Technology</option>
+      </select>
+      <select name="gender" id="gender" required>
+        <option value="" disabled selected hidden>Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+      <br><br>
+    </div>
+  </div>
+
+  <button type="submit" id="createButton">CREATE EMPLOYEE</button>
+
+</form>
+
+<script>
+document.getElementById('employee-form').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent the form from submitting normally
+
+  const formData = {
+    eid: document.getElementById('eid').value,
+    fname: document.getElementById('fname').value,
+    lname: document.getElementById('lname').value,
+    email: document.getElementById('email').value,
+    number: document.getElementById('number').value,
+    role: document.getElementById('role').value,
+    gender: document.getElementById('gender').value
+  };
+
+  fetch('https://healthx-2902be720d3c.herokuapp.com/insertData', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.text(); // Return response text if successful
+  })
+  .then(data => {
+    console.log(data); // Log response data
+    alert('Data inserted successfully'); // Show success message
+    // You can redirect or perform any other action here
+  })
+  .catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+    alert('There was an error, please try again'); // Show error message
+  });
+});
+</script>
+
+</body>
+</html>

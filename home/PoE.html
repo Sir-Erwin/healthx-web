@@ -1,0 +1,50 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HealthX</title>
+    <link rel="stylesheet" href="PoE.css" />
+
+    <style>
+      body {
+    min-height: 100vh;
+    width: 100%;
+    background-image: linear-gradient(rgba(4,9,30,0.7),rgba(4,9,30,0.7)),url(sunrise.jpg);
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+    </style>
+  </head>
+
+
+<body>
+
+  <div id="choose">
+    <h1>CHOOSE ONE</h1>
+    <a href="loginP.html"><button type="button">PATIENT</button></a>
+    <a href="login.html"><button type="button">EMPLOYEE</button></a>
+    <a href="../html-lab/ToDoApp.html"><button type="button">LAB TECH</button></a>
+  </div>
+
+  <script>
+    window.addEventListener('load', function(){
+      var prevUsername = localStorage.getItem("username");
+      var prevUserRole = localStorage.getItem("role");
+
+      if(prevUsername && prevUserRole){
+        console.log("User Returns");
+        if(prevUserRole >= 0)
+        window.location.href = ("dashboard.html");
+        else
+        window.location.href = ("dashboardP.html");
+      }
+    });
+  </script>
+
+</body>
+
+</html>
