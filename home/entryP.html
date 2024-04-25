@@ -64,7 +64,7 @@
     </div>
     
 
-    <a href="#"><button type="button" id="loginButton">Sign Up</button></a>
+    <button type="button" id="loginButton">Sign Up</button>
   </form>
 
   
@@ -83,7 +83,7 @@
               jsonformat[key] = value;
             });
             // You can perform validation here before sending data to backend
-            fetch('http://localhost:4000/pat_signup', {
+            fetch('https://healthx-2902be720d3c.herokuapp.com/pat_signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
